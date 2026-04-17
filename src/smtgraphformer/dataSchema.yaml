@@ -1,0 +1,213 @@
+specialTokens:
+  <SOS>: 10000
+  <EOS>: 10001
+  <PAD>: 10002
+
+columns:
+  key:
+    - dateTrip
+    - Date
+    - Line
+    - StopIdentifier
+    - StopSequence
+    - LastStopSequence
+    - FLAG_TripDirection
+  meta:
+    - BusType
+    - FLAG_Workday
+  cat:
+    - Line
+    - BusType
+    - FLAG_TripDirection
+    - FLAG_Workday
+    - FLAG_Holiday
+    - dwConditions
+    - StopType
+    - typeElevation
+  cont:
+    - nStops
+    - StopScheduledArrival
+    - luBusiness
+    - luEmployee
+    - luPopulation
+    - luDwelling
+    - luBuiAll
+    - luBuiDwell
+    - luBuiOffice
+    - luBuiHotel
+    - luBuiEduEnt
+    - luBuiMedical
+    - TransferStop
+    - StopElevation
+    - diffElevation
+    - StopDistance
+    - absElevation
+    - slopeElevation
+    - dwTempFeels
+    - dwTempMin
+    - dwTempMax
+    - dwWindGust
+  cyclic:
+    Hour: [ 24, 0 ]
+    DayType: [ 7, 1 ]
+  target:
+    - PC_Boarding
+    - PC_Alighting
+    - ST_Delay
+    - ST_Dwell
+  sequence:
+    - StopScheduledArrival
+    - StopSequence
+    - StopIdentifier
+
+tripContext:
+  cat:
+    - Line
+    - BusType
+    - FLAG_TripDirection
+    - FLAG_Workday
+    - FLAG_Holiday
+    - dwConditions
+  cont:
+    - nStops
+    - dwTempFeels
+    - dwTempMin
+    - dwTempMax
+    - dwWindGust
+
+graphAttributes:
+  - luBusiness
+  - luEmployee
+  - luPopulation
+  - luDwelling
+  - luBuiAll
+  - luBuiDwell
+  - luBuiOffice
+  - luBuiHotel
+  - luBuiEduEnt
+  - luBuiMedical
+  - StopElevation
+  - diffElevation
+  - StopDistance
+  - typeElevation
+  - absElevation
+  - slopeElevation
+  - StopType
+  - TransferStop
+
+featureMappings:
+  DayType:
+    1: Monday
+    2: Tuesday
+    3: Wednesday
+    4: Thursday
+    5: Friday
+    6: Saturday
+    7: Sunday
+  typeElevation:
+    -1: Downhill
+    0: Flat
+    1: Uphill
+  StopType:
+    0: Ordinary
+    1: Transfer
+  dwConditions:
+    1: Clear
+    2: Partially cloudy
+    3: Rain, Partially cloudy
+    4: Rain
+    5: Rain, Overcast
+
+externalFactors:
+  landuse:
+    - luBusiness
+    - luEmployee
+    - luPopulation
+    - luDwelling
+    - luBuiAll
+    - luBuiDwell
+    - luBuiOffice
+    - luBuiHotel
+    - luBuiEduEnt
+    - luBuiMedical
+  terrain:
+    - StopElevation
+    - diffElevation
+    - StopDistance
+    - typeElevation
+    - absElevation
+    - slopeElevation
+  transfer:
+    - StopType
+    - TransferStop
+  weather:
+    - dwTempFeels
+    - dwTempMin
+    - dwTempMax
+    - dwWindGust
+    - dwConditions
+
+pklExpectedColumns:
+  - index
+  - dateTrip
+  - Date
+  - TripScheduledDeparture
+  - Line
+  - FLAG_TripDirection
+  - StopSequence
+  - LastStopSequence
+  - StopScheduledArrival
+  - StopActualArrival
+  - Boarding
+  - Alighting
+  - StopName
+  - Longitude
+  - Latitude
+  - StopIdentifier
+  - BusType
+  - StopTime
+  - TransferStop
+  - StopType
+  - DayType
+  - FLAG_Workday
+  - FLAG_Holiday
+  - StopElevation
+  - diffElevation
+  - StopDistance
+  - typeElevation
+  - absElevation
+  - slopeElevation
+  - luBusiness
+  - luEmployee
+  - luPopulation
+  - luDwelling
+  - luBuiAll
+  - luBuiDwell
+  - luBuiOffice
+  - luBuiHotel
+  - luBuiEduEnt
+  - luBuiMedical
+  - dwTempFeels
+  - dwTempMin
+  - dwTempMax
+  - dwWindGust
+  - dwConditions
+
+baseFeatures:
+  stop:
+    - StopIdentifier
+    - StopName
+    - Longitude
+    - Latitude
+  line:
+    - Line
+    - LastStopSequence
+
+mobilityPattern:
+  target:
+    - boarding
+    - alighting
+    - combined
+  resolution:
+    - hourly
+    - daily
