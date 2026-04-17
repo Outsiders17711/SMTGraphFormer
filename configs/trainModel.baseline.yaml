@@ -1,0 +1,30 @@
+model:
+  # model parameters
+  embed_dim: 256
+  batch_size: 256
+  n_head: 8
+  n_layer: 4
+  n_expert: 3
+  # training parameters
+  train_epochs: 40
+  early_stopping: valid
+  early_stopping_patience: 20
+  pct_warmup: 0.075
+  # optimisation parameters
+  w_surrogate_tasks: 1.0
+  learning_rate: 3e-4
+  dropout_pct: 0.1
+  max_grad_norm: 1.0
+  w_decay: 0.01
+  # ablation parameters
+  use_graph_embeddings: true
+  use_stop_features: true
+  use_context_encoding: true
+  use_surrogate_tasks: true
+  use_mmoe: true
+
+extra:
+  gae_train_epochs: 4096
+  smt_eval_pct_progress: 1.0
+  smt_final_eval_raw: true
+  smt_final_eval_forced: true
