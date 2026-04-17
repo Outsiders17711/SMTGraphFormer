@@ -1,0 +1,20 @@
+[project]
+name = "smtgraphformer"
+version = "0.1.0"
+description = "Pytorch implementation of SMT-GraphFormer: Spatiotemporal Multi-Task Graph Transformer for Transit Prediction"
+authors = [{name = "Umar Oluwaleke"}]
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smtgraphformer*"]
+exclude = []
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
