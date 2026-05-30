@@ -1,12 +1,52 @@
 # SMT-GraphFormer: Spatiotemporal Multi-Task Graph Transformer for Transit Prediction
 
-This directory is a standalone public slice of the transit M24 pipeline used for the SMTGraphFormer paper. It keeps the copied code as close as possible to the original project, keeping the same file structure and names where possible. The code is not intended to be used as a general purpose library, but rather as a reference implementation for the paper.
+This repository accompanies the paper *Spatiotemporal Multi-Task Graph Transformer for Trip-Level Transit Prediction*. It contains the source code and notebooks to reproduce the data pipeline, model training, and benchmark experiments.
 
-The project expects one external input. Place the raw stop level pickle file in `data/` with the original filename `atbData-May2024-stopLevel-[fPM.eST.eLU.eDW].pkl`. All other artefacts are built inside this repository.
+## Overview
 
-The intended workflow is straightforward. First run `notebooks/dataIntegration.ipynb` to build the transformed stop data, split plan, transform bundle, trip level SMT data, and relational matrices inside `data/`. After that you can use `notebooks/trainModel.ipynb` or `scripts/trainModel.py` for SMT training, and `notebooks/bmXGB.ipynb` or `notebooks/bmRTDL.ipynb` for the paper benchmarks.
+The paper studies trip-level prediction of passenger counts and operational metrics in urban bus transit, targeting boarding and alighting counts together with arrival delay and dwell time at each stop. Rather than relying on fixed temporal or spatial aggregation, it reframes the problem as a sequence modelling task that treats individual trips as ordered stop sequences and produces complete per-stop trajectories for any given line and trip context. This horizon-agnostic design supports what-if scenario analysis where planners and operators can vary schedules, routes, or external conditions to explore the resulting evolution of passenger counts and operational metrics.
 
-The top level layout is as follows:
-- The Python package lives in `src/smtgraphformer/`. 
-- Training and evaluation code (notebooks, scripts) in `notebooks/`. Training configs in `configs/`. 
-- The built data artefacts are exported to `data/`, and saved models go in `models/`.
+`SMT-GraphFormer` combines a graph autoencoder for learning stop embeddings, a trip-level context encoder, and a modified encoder-decoder transformer. The encoder processes a comprehensive trip representation to produce contextual stop embeddings, while also estimating delay and dwell time as encoder-side surrogate tasks. A multi-gate mixture-of-experts module then generates task-specific decoder representations that feed into separate prediction heads for boarding and alighting counts. This architecture gives the model an explicit sequential bias for capturing inter-target dependencies across a trip, with the graph-based stop embeddings providing structural awareness of the broader transit network.
+
+<p align="center">
+  <img src="notes/SMT-GraphFormer-Architecture.png" width="640" alt="SMT-GraphFormer architecture" />
+</p>
+
+## Repository Scope
+
+One external input file is required but not included in this repository and is available upon request. Place the raw stop-level pickle file in [data/](data/) using the original filename `atbData-May2024-stopLevel-[fPM.eST.eLU.eDW].pkl`. It contains automated passenger counting records for all bus trips in Trondheim, Norway during May 2024, from which all derived artefacts are generated.
+
+The main directories are:
+
+- [src/smtgraphformer/](src/smtgraphformer/) — Python package with the model implementation, data pipeline, benchmark adapters, and other shared utilities.
+- [notebooks/](notebooks/) — data integration, model training, and benchmark notebooks.
+- [configs/](configs/) — YAML configuration files for model training.
+- [data/](data/) — external input file and generated data artefacts.
+- [models/](models/) — saved model runs and evaluation outputs.
+- [notes/](notes/) — supplementary notes, result tables, and visualisations.
+
+## Environment Setup
+
+The project uses [uv](https://docs.astral.sh/uv/) for environment management based on the `pyproject.toml` and `uv.lock` files. From the repository root, create the environment with:
+
+```bash
+uv sync --frozen
+```
+
+## Reproducing the Pipeline
+
+Starting from the raw stop-level pickle file in [data/](data/):
+
+1. Run [notebooks/dataIntegration.ipynb](notebooks/dataIntegration.ipynb) to build the canonical dataset and prepare shared artefacts for the model and benchmark experiments.
+
+2. Train `SMT-GraphFormer` with [notebooks/trainModel.ipynb](notebooks/trainModel.ipynb), or run the script version from the repository root:
+
+	```bash
+	uv run python notebooks/trainModel.py --config configs/trainModel.baseline.yaml
+	```
+
+3. Run [notebooks/bmXGB.ipynb](notebooks/bmXGB.ipynb) and [notebooks/bmRTDL.ipynb](notebooks/bmRTDL.ipynb) to reproduce the XGBoost, MLP, ResNet, and FT-Transformer benchmarks.
+
+## Evaluation Results
+
+Full training, validation, and test metrics comparing `SMT-GraphFormer` with XGBoost, MLP, ResNet, and FT-Transformer across all four prediction targets are in [notes/Evaluation-Results.md](notes/Evaluation-Results.md).
