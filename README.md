@@ -2,6 +2,9 @@
 
 This repository accompanies the paper *Spatiotemporal Multi-Task Graph Transformer for Trip-Level Transit Prediction*. It contains the source code and notebooks to reproduce the data pipeline, model training, and benchmark experiments.
 
+> arXiv Preprint &ndash; [[2606.00572] Spatiotemporal Multi-Task Graph Transformer for Trip-Level Transit Prediction](https://arxiv.org/abs/2606.00572)
+>
+
 ## Overview
 
 The paper studies trip-level prediction of passenger counts and operational metrics in urban bus transit, targeting boarding and alighting counts together with arrival delay and dwell time at each stop. Rather than relying on fixed temporal or spatial aggregation, it reframes the problem as a sequence modelling task that treats individual trips as ordered stop sequences and produces complete per-stop trajectories for any given line and trip context. This horizon-agnostic design supports what-if scenario analysis where planners and operators can vary schedules, routes, or external conditions to explore the resulting evolution of passenger counts and operational metrics.
@@ -50,3 +53,18 @@ Starting from the raw stop-level pickle file in [data/](data/):
 ## Evaluation Results
 
 Full training, validation, and test metrics comparing `SMT-GraphFormer` with XGBoost, MLP, ResNet, and FT-Transformer across all four prediction targets are in [notes/Evaluation-Results.md](notes/Evaluation-Results.md).
+
+## Citation
+
+If you find this code useful for your research, please consider citing the paper:
+
+```bibtex
+@misc{yusuf2026smt,
+      title={Spatiotemporal Multi-Task Graph Transformer for Trip-Level Transit Prediction}, 
+      author={Oluwaleke Yusuf and Adil Rasheed and Frank Lindseth},
+      year={2026},
+      eprint={2606.00572},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2606.00572}, 
+}
