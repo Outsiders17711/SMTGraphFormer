@@ -20,6 +20,7 @@ __pycache__/
 .vscode/
 models/
 data/*
+configs/sensitivity/
 
 # --- forced includes ---
 !data/README.md

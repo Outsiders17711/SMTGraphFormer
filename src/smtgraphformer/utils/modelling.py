@@ -15,6 +15,7 @@ __all__ = [
     "loadTrainingLog",
     "saveTrainingSummary",
     "plotTrainingHistory",
+    "summariseFolderResults",
 ]
 
 
@@ -220,3 +221,25 @@ def plotTrainingHistory(metrics: list[dict[str, float]], fp: str | None = None):
     plt.tight_layout()
     plt.savefig(fp, bbox_inches="tight") if fp else None
     plt.show()
+
+
+# -- utilities for summarising multiple experiments ---
+def summariseFolderResults(src: str | Path, file="metrics.forced.csv", metric="r2") -> pd.DataFrame:
+    assert metric in ["rmse", "mae", "r2"], "!!!"
+    assert file.endswith(".csv"), "!!!"
+
+    src = Path(src)
+    l_csvs = sorted(src.rglob(file))
+    l_dfs = []
+
+    for fp in l_csvs:
+        df = pd.read_csv(fp)
+        df = df[df["$split"] == "test"].drop(columns=["$split"]).copy()
+        df = df[["target", metric]]
+        df = df.rename(columns={"target": "$tag", metric: fp.parent.name})
+        df = df.set_index("$tag").T
+        l_dfs.append(df)
+
+    summary = pd.concat(l_dfs, axis=0).reset_index(names="experiment")
+    summary.columns.name = None  # remove the name of the columns index
+    return summary
