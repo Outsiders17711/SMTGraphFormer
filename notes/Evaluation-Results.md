@@ -33,6 +33,17 @@ Teacher-forced evaluation across the training, validation, and test splits.
 | Dwell     | Validation |  34.430 |  9.236 | 0.337 |
 | Dwell     | Test       |  33.739 |  9.109 | 0.346 |
 
+Autoregressive evaluation across the training, validation, and test splits. The teacher-forced and autoregressive results are identical for the delay and dwell targets since they are encoder-side surrogate tasks.
+
+| Target    | Split      |  RMSE |   MAE | $R^2$ |
+| --------- | ---------- | ----: | ----: | ----: |
+| Boarding  | Training   | 2.082 | 0.945 | 0.581 |
+| Boarding  | Validation | 2.063 | 0.979 | 0.515 |
+| Boarding  | Test       | 1.932 | 0.926 | 0.515 |
+| Alighting | Training   | 2.269 | 0.970 | 0.529 |
+| Alighting | Validation | 2.170 | 0.997 | 0.475 |
+| Alighting | Test       | 2.044 | 0.941 | 0.474 |
+
 ## XGBoost Benchmark
 
 Predictive performance of the XGBoost benchmark model across data splits.
