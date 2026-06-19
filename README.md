@@ -22,11 +22,11 @@ One external input file is required but not included in this repository and is a
 The main directories are:
 
 - [src/smtgraphformer/](src/smtgraphformer/) — Python package with the model implementation, data pipeline, benchmark adapters, and other shared utilities.
-- [notebooks/](notebooks/) — data integration, model training, and benchmark notebooks.
+- [notebooks/](notebooks/) — data integration, model training, benchmark, ablation study and sensitivity analysis notebooks.
 - [configs/](configs/) — YAML configuration files for model training.
 - [data/](data/) — external input file and generated data artefacts.
 - [models/](models/) — saved model runs and evaluation outputs.
-- [notes/](notes/) — supplementary notes, result tables, and visualisations.
+- [notes/](notes/) — supplementary notes, results tables/files, and visualisations.
 
 ## Environment Setup
 
@@ -53,6 +53,8 @@ Starting from the raw stop-level pickle file in [data/](data/):
 ## Evaluation Results
 
 Full training, validation, and test metrics comparing `SMT-GraphFormer` with XGBoost, MLP, ResNet, and FT-Transformer across all four prediction targets are in [notes/Evaluation-Results.md](notes/Evaluation-Results.md).
+
+[notes/Sensitivity-Analysis.csv](notes/Sensitivity-Analysis.csv) contains the detailed configuration and test-set $R^2$ results for the hyperparameter sensitivity analysis experiments.
 
 ## Citation
 
